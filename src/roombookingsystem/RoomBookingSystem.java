@@ -47,7 +47,7 @@ public class RoomBookingSystem extends Application {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", "mail.gaming.bz");
         properties.setProperty("mail.user", "hello@luk3.uk");
-        properties.setProperty("mail.password", "REDACTED");
+        properties.setProperty("mail.password", System.getenv("MAIL_PASSWORD"));
         properties.setProperty("mail.smtp.port", "465");
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.ssl.enable", "true");

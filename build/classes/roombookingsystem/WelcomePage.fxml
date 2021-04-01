@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roombookingsystem.WelcomePageController">
+   <children>
+      <Pane fx:id="Title" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #8a8a8a; -fx-border-width: 2; -fx-border-color: #3b3b3b;">
+         <children>
+            <Label alignment="CENTER" layoutX="118.0" layoutY="-4.0" prefHeight="69.0" prefWidth="264.0" text="ROOM BOOKING" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="DateLabel" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="5.0" layoutY="14.0" prefHeight="44.0" prefWidth="84.0" text="xx/xx/xxxx" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="58.0" prefHeight="342.0" prefWidth="500.0" style="-fx-background-color: #dbdbdb; -fx-border-color: #3b3b3b; -fx-border-width: 2;">
+         <children>
+            <Pane fx:id="ButtonsPane" layoutY="244.0" prefHeight="98.0" prefWidth="500.0">
+               <children>
+                  <Button fx:id="MainMenuLoginB" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#LoginBAction" prefHeight="69.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Login">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="MainMenuRegisterB" layoutX="257.0" layoutY="15.0" mnemonicParsing="false" onAction="#RegisterBAction" prefHeight="69.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Register">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="LoginPane" prefHeight="342.0" prefWidth="500.0" visible="false">
+               <children>
+                  <TextField fx:id="LoginEmailEntryField" alignment="CENTER" layoutX="138.0" layoutY="95.0" prefHeight="44.0" prefWidth="229.0" promptText="Enter Email">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label alignment="CENTER" layoutX="119.0" prefHeight="77.0" prefWidth="264.0" text="Login">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="LoginPasswordEntryField" alignment="CENTER" layoutX="138.0" layoutY="164.0" prefHeight="44.0" prefWidth="229.0" promptText="Enter Password">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <Button graphicTextGap="0.0" layoutX="138.0" layoutY="244.0" mnemonicParsing="false" onAction="#Login" prefHeight="44.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Login" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="DateLabel1" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="148.0" layoutY="300.0" prefHeight="28.0" prefWidth="148.0" text="Don't have an account?" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="DateLabel11" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="296.0" layoutY="300.0" prefHeight="28.0" prefWidth="61.0" text="Sign up" textFill="#8a8a8a">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="GoToRegisterB" layoutX="294.0" layoutY="302.0" mnemonicParsing="false" onAction="#RegisterBAction" opacity="0.0" prefHeight="34.0" prefWidth="53.0" />
+                  <Label fx:id="LoginStatusLabel" alignment="CENTER" layoutX="44.0" layoutY="208.0" prefHeight="32.0" prefWidth="417.0" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="RegisterPane" prefHeight="342.0" prefWidth="500.0" visible="false">
+               <children>
+                  <TextField fx:id="RegisterEmailEntryField" alignment="CENTER" layoutX="136.0" layoutY="96.0" prefHeight="44.0" prefWidth="229.0" promptText="Enter Email">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label alignment="CENTER" layoutX="119.0" prefHeight="77.0" prefWidth="264.0" text="Register">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="RegisterPasswordEntryField" alignment="CENTER" layoutX="138.0" layoutY="164.0" prefHeight="44.0" prefWidth="229.0" promptText="Enter Password">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <Button graphicTextGap="0.0" layoutX="138.0" layoutY="244.0" mnemonicParsing="false" onAction="#Register" prefHeight="44.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Register" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="DateLabel11" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="153.0" layoutY="300.0" prefHeight="28.0" prefWidth="158.0" text="Already have an account?" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="DateLabel111" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="313.0" layoutY="300.0" prefHeight="28.0" prefWidth="40.0" text="Login" textFill="#8a8a8a">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="GoToLoginB" layoutX="307.0" layoutY="300.0" mnemonicParsing="false" onAction="#LoginBAction" opacity="0.0" prefHeight="34.0" prefWidth="53.0" />
+                  <Label fx:id="RegisterStatusLabel" alignment="CENTER" layoutX="42.0" layoutY="210.0" prefHeight="32.0" prefWidth="417.0" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="EmailValidationPane" prefHeight="342.0" prefWidth="500.0" visible="false">
+               <children>
+                  <TextField fx:id="EmailValidationEntryField" alignment="CENTER" layoutX="138.0" layoutY="133.0" prefHeight="44.0" prefWidth="229.0" promptText="Enter Code">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label alignment="CENTER" layoutX="84.0" prefHeight="77.0" prefWidth="334.0" text="Confirm your email">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="EmailValidationB" graphicTextGap="0.0" layoutX="138.0" layoutY="244.0" mnemonicParsing="false" onAction="#EmailConfirmation" prefHeight="44.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Confirm" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="70.0" layoutY="30.0" prefHeight="77.0" prefWidth="365.0" text="An email with a code has been sent, enter the code below:" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="EmailValidationStatusLabel" alignment="CENTER" layoutX="44.0" layoutY="196.0" prefHeight="32.0" prefWidth="417.0" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="AccountTypePane" prefHeight="342.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Label alignment="CENTER" layoutX="84.0" prefHeight="77.0" prefWidth="334.0" text="Type of account">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="AccountTypeB" graphicTextGap="0.0" layoutX="138.0" layoutY="244.0" mnemonicParsing="false" onAction="#ConfirmAccountType" prefHeight="44.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Confirm" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="70.0" layoutY="30.0" prefHeight="77.0" prefWidth="365.0" text="What type of account do you wish to create?" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="EmailValidationStatusLabel1" alignment="CENTER" layoutX="44.0" layoutY="196.0" prefHeight="32.0" prefWidth="417.0" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="AccountTypeChoiceBox" layoutX="175.0" layoutY="146.0" prefWidth="150.0" visibleRowCount="3" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

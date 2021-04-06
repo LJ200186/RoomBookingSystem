@@ -123,8 +123,7 @@ public class WelcomePageController implements Initializable {
         if(EnteredUser == null){
             LoginStatusLabel.setText("Error: Account not found");
         }
-        
-        System.out.println(EnteredUser);
+
         if(EnteredUser.UserPWordHash.equals(HashedEnteredPassword)){
             if("Partner".equals(EnteredUser.UserType)){
                 RoomBookingSystem.loadPartnerPanel(EnteredUser);
@@ -148,8 +147,6 @@ public class WelcomePageController implements Initializable {
         String EnteredEmail = RegisterEmailEntryField.getText();
         String EnteredPassword = RegisterPasswordEntryField.getText();
         
-        System.out.println(EnteredEmail);
-        
         boolean EmailValid = CheckEmailValidation(EnteredEmail);
         
         if(EmailValid){
@@ -160,8 +157,6 @@ public class WelcomePageController implements Initializable {
             RegisterPane.setVisible(false);
             
             CompletableFuture.runAsync(() -> SendComfirmationEmail(EnteredEmail));
-            
-            System.out.println(ConfirmCode);
             
             NewUserInfo[0] = EnteredEmail;
             NewUserInfo[1] = RoomBookingSystem.hashPassword(EnteredPassword);

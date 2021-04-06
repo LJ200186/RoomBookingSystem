@@ -38,6 +38,7 @@ public class DatabaseFunctions {
 
         } catch (Exception e) {
             System.out.println("Error: " + e);
+            e.printStackTrace();
         }
     }
 
@@ -47,6 +48,7 @@ public class DatabaseFunctions {
             return con;
         } catch (Exception e) {
             System.out.println("Error: " + e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -65,15 +67,15 @@ public class DatabaseFunctions {
         }
     }
     
-    public static boolean createBooking(String BookingType, int BookingHostID,int BookingRoomID, long BookingStartTime, long BookingEndTime, String Booking_RefreshmentsRequested, long Booking_RefreshmentsDeliveryTime){
+    public static boolean createBooking(Booking toBook){
         
         try {
-            String sql = "INSERT INTO Users VALUES('" + BookingType + "','" + BookingHostID + "','" + BookingRoomID + "','" + BookingStartTime + "','" + BookingEndTime + "','" + Booking_RefreshmentsRequested + "','" + Booking_RefreshmentsDeliveryTime +"'";
+            String sql = "INSERT INTO Bookings(BookingType,BookingHostID,BookingRoomID,BookingStartTime,BookingEndTime,Booking_RefreshmentsRequested,Booking_RefreshmentsDeliveryTime,Booking_Resources) VALUES('" + toBook.BookingType + "'," + toBook.BookingHostID + "," + toBook.BookingRoomID + "," + toBook.BookingStartTime + "," + toBook.BookingEndTime + ",'" + toBook.Booking_RefreshmentsRequested + "'," + toBook.Booking_RefreshmentsDeliveryTime +",'" + toBook.Booking_Resources +"')";
             executeUpdateQuery(getConnection(), sql);
             con.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return false;
         }
     }
@@ -111,7 +113,7 @@ public class DatabaseFunctions {
             ResultSet rs = executeQuery(getConnection(), sql);
 
             while (rs.next()) {
-                Booking newBooking = new Booking(rs.getInt("BookingID"),rs.getString("BookingType"),rs.getInt("BookingHostID"),rs.getInt("BookingRoomID"),rs.getLong("BookingStartTime"), rs.getLong("BookingEndTime"), rs.getString("Booking_RefreshmentsRequested"), rs.getLong("Booking_RefreshmentsDeliveryTime"));
+                Booking newBooking = new Booking(rs.getInt("BookingID"),rs.getString("BookingType"),rs.getInt("BookingHostID"),rs.getInt("BookingRoomID"),rs.getLong("BookingStartTime"), rs.getLong("BookingEndTime"), rs.getString("Booking_RefreshmentsRequested"), rs.getLong("Booking_RefreshmentsDeliveryTime"), rs.getString("Booking_Resources"));
                 RoomBookings.add(newBooking);
             }
             rs.close();

@@ -8,13 +8,15 @@ package roombookingsystem;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -70,11 +72,23 @@ public class PartnerPageController implements Initializable {
         BookingStartTimeComboBox.setItems(StartTimeList);
         BookingEndTimeComboBox.setItems(EndTimeList);
 
+        RefreshmentComboBox.getItems().addAll("Water", "Coffee/Tea", "Pastry Selection", "Sandwich Selection");
+        ResourcesComboBox.getItems().addAll("Projector", "Stationary", "Notepads", "Whiteboard");
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                System.out.println("Caught " + e);
+                e.printStackTrace();
+            }
+        }
+        );
     }
 
     private Dictionary TimeSlots = new Hashtable();
-    
+
     private Booking NewBooking;
+    private Booking NewCleaning;
 
     public Label am0800;
     public Label am0830;
@@ -96,10 +110,17 @@ public class PartnerPageController implements Initializable {
     public Label pm1630;
     public Label DateLabel;
     public Label BookingStatusLabel;
+    public Label ExtrasStatusLabel;
 
+    public Pane BookingExtrasPane;
+    public Pane CreateBookingPane;
     public Pane MenuPane;
     public Pane CreateBookingScrollPanePane;
 
+    public ListView ExtrasListView;
+    public ComboBox RefreshmentComboBox;
+    public ComboBox ResourcesComboBox;
+    public ComboBox RefreshmentTimeComboBox;
     public ComboBox BookingRoomChoiceComboBox;
     public ComboBox BookingStartTimeComboBox;
     public ComboBox BookingEndTimeComboBox;
@@ -107,12 +128,25 @@ public class PartnerPageController implements Initializable {
 
     private ArrayList<Booking> sortBookings(long Start, long End, ArrayList<Booking> RoomBookings) {
 
-        for (int i = 0; i < RoomBookings.size(); i++) {
+        int Size = RoomBookings.size();
+
+        for (int i = 0; i < Size;) {
             Booking CurrentBooking = RoomBookings.get(i);
-            if (!((CurrentBooking.BookingStartTime >= Start) && (CurrentBooking.BookingEndTime <= End))) {
+
+            boolean isbetweenStart = (Start <= CurrentBooking.BookingStartTime) && (End > CurrentBooking.BookingStartTime);
+            boolean isbetweenEnd = (End <= CurrentBooking.BookingEndTime) && (End > CurrentBooking.BookingEndTime);
+
+            if (!(isbetweenStart || isbetweenEnd)) {
                 RoomBookings.remove(CurrentBooking);
+                Size--;
+                if (Size == 0) {
+                    return (RoomBookings);
+                }
+            } else {
+                i = i + 1;
             }
         }
+
         return (RoomBookings);
     }
 
@@ -140,41 +174,193 @@ public class PartnerPageController implements Initializable {
     }
 
     @FXML
+    private void CreateBookingMenuB() {
+        MenuPane.setVisible(false);
+        CreateBookingPane.setVisible(true);
+    }
+
+    @FXML
+    private void ViewScheduleMenuB() {
+        MenuPane.setVisible(false);
+        //VIEW SCHEDULE PANE VISIBLE
+    }
+
+    @FXML
+    private void RefreshmentPicked() {
+        try {
+            ObservableList<String> SelectedExtras = ExtrasListView.getItems();
+            String PickedRefreshment = (String) RefreshmentComboBox.getValue();
+
+            if (PickedRefreshment != null) {
+                if (SelectedExtras.size() != 0) {
+                    if (SelectedExtras.contains(PickedRefreshment)) {
+                        SelectedExtras.remove(PickedRefreshment);
+                    } else {
+                        SelectedExtras.add(PickedRefreshment);
+                    }
+
+                } else {
+                    SelectedExtras.add(0, PickedRefreshment);
+                }
+            }
+
+            EventHandler<ActionEvent> handler = RefreshmentComboBox.getOnAction();
+            RefreshmentComboBox.setOnAction(null);
+            ExtrasListView.setItems(SelectedExtras);
+            RefreshmentComboBox.getSelectionModel().clearSelection();
+            RefreshmentComboBox.setOnAction(handler);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    private void ResourcePicked() {
+        try {
+            ObservableList<String> SelectedExtras = ExtrasListView.getItems();
+            String PickedResource = (String) ResourcesComboBox.getValue();
+
+            if (PickedResource != null) {
+                if (SelectedExtras.size() != 0) {
+                    if (SelectedExtras.contains(PickedResource)) {
+                        SelectedExtras.remove(PickedResource);
+                    } else {
+                        SelectedExtras.add(PickedResource);
+                    }
+
+                } else {
+                    SelectedExtras.add(0, PickedResource);
+                }
+            }
+            EventHandler<ActionEvent> handler = ResourcesComboBox.getOnAction();
+            ResourcesComboBox.setOnAction(null);
+            ExtrasListView.setItems(SelectedExtras);
+            ResourcesComboBox.getSelectionModel().clearSelection();
+            ResourcesComboBox.setOnAction(handler);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    @FXML
+    private void OnBook() {
+
+        ExtrasStatusLabel.setText("");
+
+        ArrayList<String> SelectedRefreshments = new ArrayList<>();
+        ArrayList<String> SelectedResources = new ArrayList<>();
+
+        if (ExtrasListView.getItems().size() != 0) {
+
+            for (Object ObjCurrentExtra : ExtrasListView.getItems()) {
+
+                String CurrentExtra = (String) ObjCurrentExtra;
+
+                if (RefreshmentComboBox.getItems().contains(CurrentExtra)) {
+                    SelectedRefreshments.add(CurrentExtra);
+                } else if (ResourcesComboBox.getItems().contains(CurrentExtra)) {
+                    SelectedResources.add(CurrentExtra);
+                }
+            }
+
+            if ((SelectedRefreshments.size() != 0) && (RefreshmentTimeComboBox.getValue() == null)) {
+                ExtrasStatusLabel.setText("Error: Set Refreshment delivery time");
+            } else if ((SelectedResources.size() != 0) && (RefreshmentTimeComboBox.getValue() == null)) {
+
+                NewBooking.Booking_Resources = SelectedResources.toString();
+
+            } else {
+                String[] StartTime = ((String) RefreshmentTimeComboBox.getValue()).split(":");
+                LocalDateTime OldStartDateTime = BookingDateSelection.getValue().atTime(Integer.parseInt(StartTime[0]), Integer.parseInt(StartTime[1]));
+                Date RefreshmentDateTime = Date.from(OldStartDateTime.toInstant(OffsetDateTime.now().getOffset()));
+
+                NewBooking.Booking_RefreshmentsRequested = SelectedRefreshments.toString();
+                NewBooking.Booking_RefreshmentsDeliveryTime = RefreshmentDateTime.getTime();
+            }
+        }
+
+        DatabaseFunctions.createBooking(NewBooking);
+        DatabaseFunctions.createBooking(NewCleaning);
+
+        BookingExtrasPane.setVisible(false);
+        MenuPane.setVisible(true);
+
+        RefreshmentTimeComboBox.getSelectionModel().clearSelection();
+        BookingRoomChoiceComboBox.getSelectionModel().clearSelection();
+        BookingStartTimeComboBox.getSelectionModel().clearSelection();
+        BookingEndTimeComboBox.getSelectionModel().clearSelection();
+        BookingDateSelection.setValue(null);
+        NewBooking = null;
+        NewCleaning = null;
+        ExtrasListView.getItems().clear();
+    }
+
+    @FXML
     private void OnContinue() {
         BookingStatusLabel.setText("");
+
         String SelectedRoom = (String) BookingRoomChoiceComboBox.getValue();
-        if ((SelectedRoom != null) && (BookingDateSelection.getValue() != null) && (BookingStartTimeComboBox.getValue() != null) && (BookingEndTimeComboBox.getValue() != null)) {
+        if ((SelectedRoom != null) && (BookingDateSelection.getValue() != null) && (BookingStartTimeComboBox.getValue() != null) && (BookingEndTimeComboBox.getValue() != null) && (BookingStartTimeComboBox.getValue() != BookingEndTimeComboBox.getValue())) {
 
             String[] StartTime = ((String) BookingStartTimeComboBox.getValue()).split(":");
             LocalDateTime OldStartDateTime = BookingDateSelection.getValue().atTime(Integer.parseInt(StartTime[0]), Integer.parseInt(StartTime[1]));
-            Date StartDateTime = Date.from(OldStartDateTime.toInstant(ZoneOffset.UTC));
+            Date StartDateTime = Date.from(OldStartDateTime.toInstant(OffsetDateTime.now().getOffset()));
 
             String[] EndTime = ((String) BookingEndTimeComboBox.getValue()).split(":");
             LocalDateTime OldEndDateTime = BookingDateSelection.getValue().atTime(Integer.parseInt(EndTime[0]), Integer.parseInt(EndTime[1]));
-            Date EndDateTime = Date.from(OldEndDateTime.toInstant(ZoneOffset.UTC));
+            Date EndDateTime = Date.from(OldEndDateTime.toInstant(OffsetDateTime.now().getOffset()));
 
-            boolean timeselectedfree = true;
-            ArrayList<Booking> RoomBookings = DatabaseFunctions.getRoomBookings((String) SelectedRoom);
-            RoomBookings = sortBookings(StartDateTime.getTime(), EndDateTime.getTime(), RoomBookings);
-            
-            if(RoomBookings.isEmpty()){
-
-            RoomBookings = sortBookings(EndDateTime.getTime(), EndDateTime.getTime()+ 1800000, DatabaseFunctions.getRoomBookings(SelectedRoom));
-                
-            if(RoomBookings.isEmpty()){
-                NewBooking = new Booking(-1, "Meeting", RoomBookingSystem.LoggedInUser.UserID, Integer.parseInt(SelectedRoom), StartDateTime.getTime(), EndDateTime.getTime(), "", -1);
-                
-                // SETUP BOOKING EXTRAS PAGE
-            }else{
-                BookingStatusLabel.setText("Error: No cleaning slot available");
+            if (EndDateTime.getTime() < StartDateTime.getTime()) {
+                BookingStatusLabel.setText("Error: Invalid data entry");
+                return;
             }
-                
-                
-            }else{
+
+            ArrayList<Booking> RoomBookings = DatabaseFunctions.getRoomBookings((String) SelectedRoom);
+            //RoomBookings = sortBookings(StartDateTime.getTime(), EndDateTime.getTime(), RoomBookings);
+
+            boolean isactivebooking = false;
+
+            for (long i = StartDateTime.getTime(); i < EndDateTime.getTime(); i = i + 1800000) {
+                int activeBooking = isActiveBooking(RoomBookings, i);
+                if (activeBooking != 0) {
+                    isactivebooking = true;
+                    break;
+                }
+            }
+
+            if (!isactivebooking) {
+
+                int cleanslotisactiveBooking = isActiveBooking(RoomBookings, EndDateTime.getTime());
+
+                if (cleanslotisactiveBooking == 0) {
+                    NewBooking = new Booking(-1, "MEETING", RoomBookingSystem.LoggedInUser.UserID, Integer.parseInt(SelectedRoom), StartDateTime.getTime(), EndDateTime.getTime() - 1, "[]", 0, "[]");
+                    NewCleaning = new Booking(-1, "CLEANING", RoomBookingSystem.LoggedInUser.UserID, Integer.parseInt(SelectedRoom), EndDateTime.getTime(), EndDateTime.getTime() + 1800000 - 1, "[]", 0, "Cleaning resources");
+
+                    ObservableList<String> RefreshmentTimes = FXCollections.observableArrayList();
+                    for (long i = StartDateTime.getTime(); i <= EndDateTime.getTime() - 600000; i = i + 600000) {
+
+                        Date TimeSlotDate = new Date(i);
+                        DateFormat Format = new SimpleDateFormat("kk:mm");
+                        String STRTimeSlot = Format.format(TimeSlotDate);
+                        RefreshmentTimes.add(STRTimeSlot);
+                    }
+                    Collections.sort(RefreshmentTimes);
+                    RefreshmentTimeComboBox.setItems(RefreshmentTimes);
+
+                    BookingExtrasPane.setVisible(true);
+                    CreateBookingPane.setVisible(false);
+
+                    //RESET ALL VARIABLES AND DATA ENTRY FIELDS
+                } else {
+                    BookingStatusLabel.setText("Error: No cleaning slot available");
+                }
+
+            } else {
                 BookingStatusLabel.setText("Error: Room in use at selected time");
             }
 
-        }else{
+        } else {
             BookingStatusLabel.setText("Error: Invalid data entry");
         }
 

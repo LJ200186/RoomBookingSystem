@@ -13,9 +13,59 @@
    <children>
       <Pane layoutY="58.0" prefHeight="342.0" prefWidth="500.0" style="-fx-background-color: #dbdbdb; -fx-border-color: #3b3b3b; -fx-border-width: 2;">
          <children>
-            <Pane fx:id="MenuPane" prefHeight="342.0" prefWidth="500.0" visible="false">
+            <Pane fx:id="BookingExtrasPane" prefHeight="342.0" prefWidth="500.0" visible="false">
                <children>
-                  <Button fx:id="MenuCreateBookingB" layoutX="14.0" layoutY="259.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Create Booking">
+                  <Label alignment="CENTER" layoutX="119.0" prefHeight="77.0" prefWidth="264.0" text="Booking Extras">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Button graphicTextGap="0.0" layoutX="40.0" layoutY="284.0" mnemonicParsing="false" onAction="#OnBook" prefHeight="44.0" prefWidth="200.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Book" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <ScrollPane hbarPolicy="NEVER" layoutX="283.0" layoutY="91.0" pannable="true" prefHeight="235.0" prefWidth="200.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" vbarPolicy="ALWAYS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <content>
+                        <ListView fx:id="ExtrasListView" fixedCellSize="0.0" prefHeight="255.0" prefWidth="179.0" />
+                     </content>
+                  </ScrollPane>
+                  <Label fx:id="DateLabel1121" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="283.0" layoutY="63.0" prefHeight="28.0" prefWidth="158.0" text="Selected Extras:" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="DateLabel11211" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="17.0" layoutY="63.0" prefHeight="28.0" prefWidth="158.0" text="Refreshments:" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="ExtrasStatusLabel" alignment="CENTER" layoutX="8.0" layoutY="252.0" prefHeight="32.0" prefWidth="264.0" textFill="#e14141">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="RefreshmentComboBox" layoutX="17.0" layoutY="91.0" onAction="#RefreshmentPicked" prefHeight="25.0" prefWidth="200.0" promptText="Select Refreshments" />
+                  <Label fx:id="DateLabel1121111" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="17.0" layoutY="116.0" prefHeight="28.0" prefWidth="200.0" text="Refreshment Delivery Time:" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="RefreshmentTimeComboBox" layoutX="17.0" layoutY="144.0" prefHeight="25.0" prefWidth="200.0" promptText="Select Time" />
+                  <Label fx:id="DateLabel112112" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="17.0" layoutY="169.0" prefHeight="28.0" prefWidth="158.0" text="Room Resources:" textFill="#3b3b3b">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="ResourcesComboBox" layoutX="17.0" layoutY="197.0" onAction="#ResourcePicked" prefHeight="25.0" prefWidth="200.0" promptText="Select Resources" />
+               </children>
+            </Pane>
+            <Pane fx:id="MenuPane" prefHeight="342.0" prefWidth="500.0">
+               <children>
+                  <Button fx:id="MenuCreateBookingB" layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#CreateBookingMenuB" prefHeight="69.0" prefWidth="229.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Create Booking">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
@@ -37,14 +87,14 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="CreateBookingPane" prefHeight="342.0" prefWidth="500.0">
+            <Pane fx:id="CreateBookingPane" prefHeight="342.0" prefWidth="500.0" visible="false">
                <children>
                   <Label alignment="CENTER" layoutX="119.0" prefHeight="77.0" prefWidth="264.0" text="Create Booking">
                      <font>
                         <Font name="System Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Button graphicTextGap="0.0" layoutX="40.0" layoutY="284.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="200.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Continue" textFill="#3b3b3b">
+                  <Button graphicTextGap="0.0" layoutX="40.0" layoutY="284.0" mnemonicParsing="false" onAction="#OnContinue" prefHeight="44.0" prefWidth="200.0" style="-fx-border-width: 2; -fx-border-color: #8a8a8a; -fx-background-color: #ffffff;" text="Continue" textFill="#3b3b3b">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>

@@ -19,8 +19,9 @@ public class Booking {
     public long BookingEndTime;
     public String Booking_RefreshmentsRequested;
     public long Booking_RefreshmentsDeliveryTime;
+    public String Booking_Resources;
 
-    public Booking(int BookingID, String BookingType, int BookingHostID,int BookingRoomID, long BookingStartTime, long BookingEndTime, String Booking_RefreshmentsRequested, long Booking_RefreshmentsDeliveryTime) {
+    public Booking(int BookingID, String BookingType, int BookingHostID,int BookingRoomID, long BookingStartTime, long BookingEndTime, String Booking_RefreshmentsRequested, long Booking_RefreshmentsDeliveryTime, String Booking_Resources) {
         this.BookingID = BookingID;
         this.BookingType = BookingType;
         this.BookingHostID = BookingHostID;
@@ -29,6 +30,7 @@ public class Booking {
         this.BookingEndTime = BookingEndTime;
         this.Booking_RefreshmentsRequested = Booking_RefreshmentsRequested;
         this.Booking_RefreshmentsDeliveryTime = Booking_RefreshmentsDeliveryTime;
+        this.Booking_Resources = Booking_Resources;
     }
     
     
